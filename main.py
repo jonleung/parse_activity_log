@@ -20,9 +20,8 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
 
         task_first_line = task_match.group(1).replace("#koya", "")
         hashtag_match = re.findall(r"#[\w|-]+", task_first_line)
-        match = re.findall(r"#\w+", task_first_line)
-        if match:
-            hashtag = match[0]
+        if hashtag_match:
+            hashtag = hashtag_match[0]
             task_first_line = task_first_line.replace(hashtag, "")
         else:
             hashtag = "n/a"
