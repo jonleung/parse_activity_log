@@ -21,6 +21,8 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
     # print("----------------------------------------------------------------------------------------------------------------------------------------")
 
     task_regex = re.compile(r"^\s{2}-\s(.*?\#koya.*?)$\n(?:(?!^\s{2}-\s.*?\#koya.*?$\n).)*", RE_SETTINGS);
+    # 🔴 If there is no tasks, then flag an error
+    b = -1
     for b, task_match in enumerate(task_regex.finditer(date_string)):
         task_level_string = task_match.group()
 
@@ -42,6 +44,7 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
 
         time_regex = re.compile(r"(\s{4}-\s(\d{1,2}:?\d{0,2}\s*\w{0,2})\s*-\s*(\d{1,2}:?\d{0,2}\s*\w{0,2})\s*$\n)", RE_SETTINGS)
         # 🔴 If there is no time, then flag an error
+        c = -1
         for c, time_match in enumerate(time_regex.finditer(task_level_string)):
             start_time_string = time_match.group(2)
             end_time_string = time_match.group(3)
@@ -84,6 +87,14 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
             rows.append(row)
             
             print(f"{date_output}\t{hashtag}\t{task_first_line}\t{start_time_string}\t{end_time_string}\t{duration_in_minutes}")
+
+        if c == -1:  # this means that the for loop for iterating through time stamps never ran
+            print(f"🚨 Error: No times found on date: '{date_first_line}' in task '{task_level_string}' 🚨")
+            exit()
+
+    if b == -1: # this means that the for loop for iterating through tasks never ran
+        print(f"🚨 Error: No tasks found on date: '{date_first_line}': '{date_string}' 🚨")
+        exit()
 
 with open("tasks.csv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t")
