@@ -1,7 +1,10 @@
 import re
 from datetime import datetime
+import csv
 
 RE_SETTINGS = re.MULTILINE |re.DOTALL | re.IGNORECASE
+
+rows = []
 
 with open("hard.txt", "r") as f:
     file_contents = f.read()
@@ -12,9 +15,9 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
     # print(f"# Date Match {a+1}:\n{date_string}")
     date_first_line = date_match.group(1)
     date_output = date_first_line[5:]
-    print("----------------------------------------------------------------------------------------------------------------------------------------")
-    print(f"# Date Match {a+1}:\t '{date_first_line}'")
-    print("----------------------------------------------------------------------------------------------------------------------------------------")
+    # print("----------------------------------------------------------------------------------------------------------------------------------------")
+    # print(f"# Date Match {a+1}:\t '{date_first_line}'")
+    # print("----------------------------------------------------------------------------------------------------------------------------------------")
 
     task_regex = re.compile(r"^\s{2}-\s(.*?\#koya.*?)$\n(?:(?!^\s{2}-\s.*?\#koya.*?$\n).)*", RE_SETTINGS);
     for b, task_match in enumerate(task_regex.finditer(date_string)):
@@ -46,26 +49,41 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
             # print(f"\t Time Match {c+1}: {time_match.group(2)} - {time_match.group(3)}")
 
             # Date
-            print(date_output)
+            # print(date_output)
 
             # # Hashtag
-            print(hashtag)
+            # print(hashtag)
 
             # # Deets
-            print(task_first_line)
+            # print(task_first_line)
 
             # # Start Time
-            print(start_time_string)
+            # print(start_time_string)
 
             # # End Time
-            print(end_time_string)
+            # print(end_time_string)
 
             # Duration
             start_time = datetime.strptime(start_time_string, "%I:%M%p")
             end_time = datetime.strptime(end_time_string, "%I:%M%p")
             time_diff = end_time - start_time
             duration_in_minutes = int(time_diff.total_seconds() / 60)
-            print(duration_in_minutes)
+            # print(duration_in_minutes)
+
+            # print(f"{date_output}\t{hashtag}\t{task_first_line}\t{start_time_string}\t{end_time_string}\t{duration_in_minutes}")
+            # print("{:<20}{:<20}{:<20}{:<20}{:<20}{:<20}".format(date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes))
+            # data = [[date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes]]
+            # print(tabulate(data, headers=["Date", "Hashtag", "Deets", "Start Time", "End Time", "Duration"]))
+            print(f"{date_output}\x09{hashtag}\x09{task_first_line}\x09{start_time_string}\x09{end_time_string}\x09{duration_in_minutes}")
+
+            row = [date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes]
+            rows.append(row)
+
+
+with open("tasks.csv", "w", newline="") as f:
+    writer = csv.writer(f, delimiter="\t")
+    writer.writerows(rows)
+
 
 
 
