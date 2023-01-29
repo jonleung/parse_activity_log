@@ -70,15 +70,10 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
             duration_in_minutes = int(time_diff.total_seconds() / 60)
             # print(duration_in_minutes)
 
-            # print(f"{date_output}\t{hashtag}\t{task_first_line}\t{start_time_string}\t{end_time_string}\t{duration_in_minutes}")
-            # print("{:<20}{:<20}{:<20}{:<20}{:<20}{:<20}".format(date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes))
-            # data = [[date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes]]
-            # print(tabulate(data, headers=["Date", "Hashtag", "Deets", "Start Time", "End Time", "Duration"]))
-            print(f"{date_output}\x09{hashtag}\x09{task_first_line}\x09{start_time_string}\x09{end_time_string}\x09{duration_in_minutes}")
-
             row = [date_output, hashtag, task_first_line, start_time_string, end_time_string, duration_in_minutes]
             rows.append(row)
-
+            
+            print(f"{date_output}\t{hashtag}\t{task_first_line}\t{start_time_string}\t{end_time_string}\t{duration_in_minutes}")
 
 with open("tasks.csv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t")
