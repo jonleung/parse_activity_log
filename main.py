@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 RE_SETTINGS = re.MULTILINE |re.DOTALL | re.IGNORECASE
 
@@ -10,7 +11,7 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
     date_string = date_match.group()
     # print(f"# Date Match {a+1}:\n{date_string}")
     date_first_line = date_match.group(1)
-    date_output = date_string[5:]
+    date_output = date_first_line[5:]
     print("----------------------------------------------------------------------------------------------------------------------------------------")
     print(f"# Date Match {a+1}:\t '{date_first_line}'")
     print("----------------------------------------------------------------------------------------------------------------------------------------")
@@ -27,8 +28,13 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
         else:
             hashtag = "n/a"
 
+        
+
         # remove extra spaces from first line
         task_first_line = re.sub(r"\s+", " ", task_first_line).strip()
+
+        if task_first_line == "":
+            task_first_line = "n/a"
         # print(f"## Task Match {b+1}: \t '{hashtag}' \t Deets: '{task_first_line}'\n{task_level_string}")
         # print(f"\nTask Match {b+1}: '{hashtag}', {task_first_line}")
 
@@ -42,18 +48,24 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
             # Date
             print(date_output)
 
-            # Hashtag
+            # # Hashtag
             print(hashtag)
 
-            # Deets
+            # # Deets
             print(task_first_line)
 
-            # Start Time
+            # # Start Time
             print(start_time_string)
 
-            # End Time
+            # # End Time
             print(end_time_string)
 
             # Duration
-            
+            start_time = datetime.strptime(start_time_string, "%I:%M%p")
+            end_time = datetime.strptime(end_time_string, "%I:%M%p")
+            time_diff = end_time - start_time
+            duration_in_minutes = int(time_diff.total_seconds() / 60)
+            print(duration_in_minutes)
+
+
 
