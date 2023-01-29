@@ -42,12 +42,7 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
 
         time_regex = re.compile(r"(\s{4}-\s(\d{1,2}:?\d{0,2}\s*\w{0,2})\s*-\s*(\d{1,2}:?\d{0,2}\s*\w{0,2})\s*$\n)", RE_SETTINGS)
         # 🔴 If there is no time, then flag an error
-        time_matches = time_regex.finditer(task_level_string)
-        if not any(time_matches):
-            print(f"🚨 Error: No time entries found on date '{date_first_line}' for task '{task_level_string}'. Since you are only exporting things from Workflowy that should have time matches, this likely indicates there is an error somewhere. 🚨")
-            exit()
-
-        for c, time_match in enumerate(time_matches):
+        for c, time_match in enumerate(time_regex.finditer(task_level_string)):
             start_time_string = time_match.group(2)
             end_time_string = time_match.group(3)
 
