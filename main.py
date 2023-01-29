@@ -6,7 +6,7 @@ RE_SETTINGS = re.MULTILINE |re.DOTALL | re.IGNORECASE
 
 rows = []
 
-with open("hard.txt", "r") as f:
+with open("real.txt", "r") as f:
     file_contents = f.read()
 
 date_regex = re.compile(r"-\s(\w{3},\s\w{3}\s\d{1,2},\s\d{4})\n(?:(?!-\s\w{3},\s\w{3}\s\d{1,2},\s\d{4}\n).)*", RE_SETTINGS);
