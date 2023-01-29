@@ -67,12 +67,12 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
             try:
                 start_time = datetime.strptime(start_time_string, "%I:%M%p")
             except ValueError as e:
-                print(f"🚨 Error parsing Start Time {start_time_string} in {date_string}")
+                print(f"🚨 Error parsing Start Time {start_time_string} in {date_string} 🚨")
                 exit()
             try:
                 end_time = datetime.strptime(end_time_string, "%I:%M%p")
             except ValueError as e:
-                print(f"🚨 Error parsing Start Time {end_time_string} in {date_string}")
+                print(f"🚨 Error parsing Start Time {end_time_string} in {date_string} 🚨")
                 exit()
             # start_time = parser.parse(start_time_string)
             # end_time = parser.parse(end_time_string)
@@ -88,7 +88,6 @@ for a, date_match in enumerate(date_regex.finditer(file_contents)):
 with open("tasks.csv", "w", newline="") as f:
     writer = csv.writer(f, delimiter="\t")
     writer.writerows(rows)
-
 
 print("\n✅ Completed with no errors detected.\n")
 
